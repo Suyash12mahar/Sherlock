@@ -24,7 +24,6 @@
         <activity android:name=".EpisodeItem" />
         <activity android:name=".TestActivity" />
         <activity android:name=".EpisodeDetails" />
-        <activity android:name=".DisplayEpisodes" />
         <activity android:name=".ViewVideoTest" />
         <activity
             android:name=".EpisodesDetails"
