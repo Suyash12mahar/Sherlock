@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_season1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.example.sherlock.Season1Activity"
+    android:background="@drawable/tiled_background">
+
+
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Season Name"
+        android:textSize="60dp"
+        android:id="@+id/season_title_text_view"
+        android:textColor="#b77701"/>
+    <ListView
+        android:descendantFocusability="blocksDescendants"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/season_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/episode_list_view"
+        android:layout_height="match_parent"
+        tools:descendantFocusability="afterDescendants" />
+
+</RelativeLayout>

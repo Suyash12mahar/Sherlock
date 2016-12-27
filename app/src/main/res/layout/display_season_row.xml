@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="115dp" >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Season 0"
+        android:id="@+id/season_number"
+        android:textAlignment="0"
+        android:textSize="38dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#DEDEE1"/>
+        <!--    android:textColor="#FFE8E8EE"  -->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:minHeight="35dp"
+        android:text="Jan 2010"
+        android:id="@+id/year_view"
+        android:textSize="18dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/season_number"
+        android:layout_marginLeft="20dp"
+        android:textColor="#DEDEE1"/>
+
+        <!--android:textColor="#FFE8E8EE"    -->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:textColor="@color/colorPrimary"
+        android:minHeight="35dp"
+        android:text="★ 4.4"
+        android:id="@+id/rating_view"
+        android:textSize="20dp"
+        android:layout_below="@+id/season_number"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        />
+
+</RelativeLayout>
