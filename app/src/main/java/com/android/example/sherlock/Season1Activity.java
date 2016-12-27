@@ -106,7 +106,7 @@ public class Season1Activity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // This comment is of no use
-            Intent newerIntent = new Intent(Season1Activity.this, EpisodeDetails.class);
+            Intent newerIntent = new Intent(Season1Activity.this, EpisodesDetails.class);
             newerIntent.putExtra("season_number", String.valueOf(seasonNumber));
             newerIntent.putExtra("episode_number", String.valueOf(id+1));
             startActivity(newerIntent);

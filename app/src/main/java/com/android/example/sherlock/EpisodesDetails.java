@@ -4,41 +4,54 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
 import android.graphics.drawable.Drawable;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EpisodeDetails extends AppCompatActivity {
-    private int seasonNumber;
-    private int episodeNumber;
-    private String  linkToImage;
+public class EpisodesDetails extends AppCompatActivity {
+    int seasonNumber;
+    int episodeNumber;
     DatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_episode_details);
+        setContentView(R.layout.activity_episodes_details_scroll);
 
         Bundle extras = getIntent().getExtras();
-
-        ImageView episodeImage = (ImageView) findViewById(R.id.episode_des_img);
-        TextView seasonNumberTextView = (TextView) findViewById(R.id.episode_season_number);
-        TextView episodeTitleTextView = (TextView) findViewById(R.id.episode_des_title);
-        TextView runtimeTextView = (TextView) findViewById(R.id.episode_des_runtime);
-        TextView viewsTextView = (TextView) findViewById(R.id.episode_des_views);
-        TextView episodeDescriptionTextView = (TextView) findViewById(R.id.episode_des_des);
-        TextView basedOnTextView = (TextView) findViewById(R.id.based_on_textView);
-        //TextView airDateTextView = (TextView) findViewById(R.id.);
-
         seasonNumber = Integer.parseInt(extras.getString("season_number"));
         episodeNumber = Integer.parseInt(extras.getString("episode_number"));
 
         dbHelper = new DatabaseHelper(this);
-        // id 0-> SeasonNumber 1-> ReleativeEps 2-> EpisodeName 3-> EpisodeDescription 4-> RuntTIm 5-> Views 6-> LinkToImage
-        //7 -> BasedON  8->  US 9-> UK
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        ImageView episodeImage = (ImageView) findViewById(R.id.episode_image);
+        TextView seasonNumberTextView = (TextView) findViewById(R.id.episode_season_number);
+        TextView runtimeTextView = (TextView) findViewById(R.id.episode_des_runtime);
+        TextView viewsTextView = (TextView) findViewById(R.id.episode_des_views);
+        TextView episodeDescriptionTextView = (TextView) findViewById(R.id.episode_des_des);
+        TextView basedOnTextView = (TextView) findViewById(R.id.based_on_textView);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
         try {
             dbHelper.checkAndCopyDatabase();
             dbHelper.openDatabase();
@@ -54,13 +67,14 @@ public class EpisodeDetails extends AppCompatActivity {
                 if (cursor.moveToFirst()) {
                     do {
                         EpisodeItem item = new EpisodeItem();
+                        collapsingToolbarLayout.setTitle(cursor.getString(3));
+
                         seasonNumberTextView.setText(cursor.getString(1));
-                        episodeTitleTextView.setText(cursor.getInt(2) + ". " + cursor.getString(3));
                         episodeDescriptionTextView.setText(cursor.getString(4));
                         runtimeTextView.setText("\uD83D\uDD51 " + cursor.getString(5));
                         viewsTextView.setText("\uD83D\uDC41 " + cursor.getString(6) + " mn");
-                        linkToImage = cursor.getString(7);
                         basedOnTextView.setText(cursor.getString(8));
+
                     } while (cursor.moveToNext());
                 }
             }
@@ -68,11 +82,7 @@ public class EpisodeDetails extends AppCompatActivity {
             Log.d("TAG", "Error accessing database 2");
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-            episodeDescriptionTextView.setText(e.toString());
         }
-
-        // Displays image corresponding to current episode
-        Toast.makeText(this, "season Number : " + seasonNumber + "\nEpisode Number : " + episodeNumber, Toast.LENGTH_LONG).show();
 
         String folderPath = "@drawable/";
         String imageName = String.format("img_%d_%d", seasonNumber, episodeNumber);
@@ -82,7 +92,6 @@ public class EpisodeDetails extends AppCompatActivity {
             drawableResourceId = this.getResources().getIdentifier(imageName, "drawable", this.getPackageName());
             episodeImage.setImageResource(drawableResourceId);
         } catch (Exception e){
-            episodeDescriptionTextView.setText(drawableResourceId + "\n" +imageName + "\n" + e.getStackTrace() + "\n" +  e.toString() + "\n" +  e.getMessage());
             Toast.makeText(this, "Error displaying image." , Toast.LENGTH_LONG).show();
         }
     }
