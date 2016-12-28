@@ -2,6 +2,8 @@ package com.android.example.sherlock;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
 import android.support.v7.app.AppCompatActivity;
@@ -75,8 +77,6 @@ public class DisplaySeason extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // This comment is of no use
-
             Intent newIntent = new Intent(DisplaySeason.this, Season1Activity.class);
             newIntent.putExtra("season_number", String.valueOf(id + 1));
             startActivity(newIntent);
