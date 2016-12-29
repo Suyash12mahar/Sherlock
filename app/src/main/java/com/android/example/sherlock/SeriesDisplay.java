@@ -47,7 +47,7 @@ public class SeriesDisplay extends AppCompatActivity {
 
         seriesList = new ArrayList<>();
 
-        adapter = new ExpandableSeriesAdapter(this, seriesList);
+        adapter = new ExpandableSeriesAdapter( seriesList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);

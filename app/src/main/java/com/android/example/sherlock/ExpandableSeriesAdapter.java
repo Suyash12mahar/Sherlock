@@ -24,63 +24,40 @@ import static android.R.attr.packageNames;
  * Created by Suyash on 29-12-2016.
  */
 
-public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeriesAdapter.MyViewHolder>  {
-    private Context mContext;
-    private List<Series> seriesList;
+public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeriesAdapter.ContactViewHolder> {
 
-    public ExpandableSeriesAdapter(Context mContext, List<Series> seriesList){
-        this.mContext = mContext;
-        this.seriesList = seriesList;
-    }
+    private List<Series> contactList;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView seriesTitle, ratings, airDate;
-        public Button imdbButton, wikipediaButton, expandButton;
-
-        public MyViewHolder(View view) {
-            super(view);
-            TextView seriesTitle = (TextView) view.findViewById(R.id.dsc_title_text_view);
-            TextView ratings = (TextView) view.findViewById(R.id.dsc_ratings);
-            TextView airDate = (TextView) view.findViewById(R.id.dsc_air_date_text_view);
-            Button imdbButton = (Button) view.findViewById(R.id.dsc_imbdb_button);
-            Button wikipediaButton = (Button) view.findViewById(R.id.dsc_wikipedia_button);
-            Button expandButton = (Button) view.findViewById(R.id.dsc_expand_close_button);
-        }
-
-    }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.detailed_series_card, parent, false);
-
-        return new MyViewHolder(itemView);
-
-    }
-
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Series series = seriesList.get(holder.getAdapterPosition());
-        //try {
-            holder.ratings.setText("\u2605 " + 2.2);
-            //holder.seriesTitle.setText("Series " + series.getSeriesNumber());
-
-        //} catch (Exception e){
-            //
-        //}
-
-
-        int[] seasonImg = {
-                R.drawable.img_ser_1,
-                R.drawable.img_ser_2,
-                R.drawable.img_ser_3,
-                R.drawable.img_ser_4
-        };
-        //holder.thumbnail.setImageResource(seasonImg[series.getSeriesNumber() - 1]);
+    public ExpandableSeriesAdapter(List<Series> contactList) {
+        this.contactList = contactList;
     }
 
     @Override
     public int getItemCount() {
-        return seriesList.size();
+        return contactList.size();
+    }
+
+    @Override
+    public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
+        Series ci = contactList.get(i);
+        contactViewHolder.vName.setText(ci.getSeriesNumber() + "");
+    }
+
+    @Override
+    public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.
+                from(viewGroup.getContext()).
+                inflate(R.layout.detailed_series_card, viewGroup, false);
+
+        return new ContactViewHolder(itemView);
+    }
+
+    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+        protected TextView vName;
+
+        public ContactViewHolder(View v) {
+            super(v);
+            vName =  (TextView) v.findViewById(R.id.dsc_title_text_view);
+        }
     }
 }

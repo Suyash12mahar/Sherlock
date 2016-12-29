@@ -44,7 +44,7 @@ public class TestActivity extends AppCompatActivity {
         a = new Series(2, "4.3", "January 123", "adf 123", "afd 123 ");
         albumList.add(a);
 
-        adapter = new ExpandableSeriesAdapter(this,albumList);
+        adapter = new ExpandableSeriesAdapter(albumList);
         RecyclerView recList = (RecyclerView) findViewById(R.id.test_recycler_view);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
