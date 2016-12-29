@@ -11,8 +11,8 @@
         android:src="@drawable/img_1_1"
         android:scaleType="centerCrop"/>
     <TextView
-        android:padding="10dp"
         android:id="@+id/ei_episode_title"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ei_episode_image"

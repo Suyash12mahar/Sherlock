@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <TextView
             android:padding="@dimen/card_margin"
             android:id="@+id/dsc_title_text_view"
@@ -106,11 +106,15 @@
             android:visibility="gone"
             android:layout_height="wrap_content">
             <ListView
+                android:descendantFocusability="blocksDescendants"
+
                 android:id="@+id/dsc_episode_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:layout_below="@+id/dsc_expanded_seperator">
+                android:layout_height="822dp"
+                android:scrollbars="vertical"
+                android:layout_below="@+id/dsc_expanded_seperator"
+
+                >
 
             </ListView>
 

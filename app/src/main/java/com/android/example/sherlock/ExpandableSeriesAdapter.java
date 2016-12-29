@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.id;
@@ -37,6 +38,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
     public Activity activity;
     private List<Series> list;
     private int expandedPosition = -1;
+    int activeSeries = 1;
 
     public ExpandableSeriesAdapter(List<Series> list, Activity activity) {
         this.activity = activity;
@@ -91,62 +93,71 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                 }
                 // Set the current position to "expanded"
                 expandedPosition = holder.getAdapterPosition();
-                notifyItemChanged(expandedPosition);
-
-                ListView episodesList = (ListView) holder.vEpisodeslist;
-
-                int seasonNumber = holder.getAdapterPosition() + 1;
-
-                DatabaseHelper dbHelper = new DatabaseHelper(activity);
-
-                try{
-                    dbHelper.checkAndCopyDatabase();
-                    dbHelper.openDatabase();
-                }
-                catch(SQLException e){
-                    Toast.makeText(activity, "Error reading database", Toast.LENGTH_LONG);
-                    Log.d("TAG", "Error accessing database");//MinGW
-                }
-                String queryString = String.format(
-                        "SELECT * FROM \"EpisodeDetails\" WHERE SeasonNumber=\"%d\"",seasonNumber);
-
-                /*
-                try{
-                    Cursor cursor = dbHelper.QueryData(queryString);
-                    if (cursor != null){
-                        if (cursor.moveToFirst()){
-                            do {
-                                // TODO Update to include new adapters
-                                EpisodeItem item = new EpisodeItem();
-                                item.setEpTitle(cursor.getInt(2)  + ". " + cursor.getString(3));
-                                item.setAirDate(cursor.getString(10));
-                                item.setShortDescription(cursor.getString(11));
-
-                                String imageName = String.format("img_%d_%d", seasonNumber, Integer.parseInt(item.getEpTitle().charAt((0)) + "") );
-                                int resourceId = -1;
-                                resourceId = this.getResources().getIdentifier(imageName, "drawable", this.getPackageName());
-                                if (resourceId != 0) {
-                                    item.setImageId(this.getResources().getIdentifier(imageName, "drawable", this.getPackageName()));
-                                } else {
-                                    item.setImageId(R.drawable.thumbnail_extra_wide_png);
-                                }
-
-                                item.setViews(cursor.getString(5));
-                                arrayList.add(item);
-                            }while (cursor.moveToNext());
-
-                        }
-                    }
-                } catch (SQLiteException e){
-                    Log.d("TAG", "Error accessing database 2");
-                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
-                }
-                */
-                String a = "This is a new String";
             }
         });
 
+        int seriesNumber = ci.getSeriesNumber();
+        DatabaseHelper dbHelper = new DatabaseHelper(activity);
+        try{
+            dbHelper.checkAndCopyDatabase();
+            dbHelper.openDatabase();
+        }
+        catch(SQLException e){
+            Toast.makeText(activity, "Error reading database", Toast.LENGTH_LONG);
+            Log.d("TAG", "Error accessing database");//MinGW
+        }
+
+        String queryString = String.format(
+                "SELECT * FROM \"EpisodeDetails\" WHERE SeasonNumber=\"%d\"",seriesNumber);
+        ArrayList<dscEpisode> episodeList = new ArrayList<dscEpisode>();
+        try{
+            Cursor cursor = dbHelper.QueryData(queryString);
+            if (cursor != null){
+                if (cursor.moveToFirst()){
+                    do {
+                        // TODO Update to include new adapters
+                        dscEpisode item = new dscEpisode();
+                        item.setTitle(cursor.getString(3));
+                        item.setSeriesNumber(cursor.getInt(1));
+                        item.setEpisodeNumber(cursor.getInt(2));
+
+                        String imageName = String.format("img_%d_%d", seriesNumber, item.getEpisodeNumber());
+                        int resourceId = -1;
+                        resourceId = activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName());
+                        if (resourceId != 0) {
+                            item.setThumbnailID(activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName()));
+                        } else {
+                            item.setThumbnailID(R.drawable.thumbnail_extra_wide_png);
+                        }
+                        episodeList.add(item);
+                    }while (cursor.moveToNext());
+
+                }
+            }
+        } catch (SQLiteException e){
+            Log.d("TAG", "Error accessing database 2");
+            Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+        }
+        dscEpisodeAdapter adapter = new dscEpisodeAdapter(activity, R.layout.dsc_episode_item, episodeList);
+        contactViewHolder.vEpisodeslist.setAdapter(adapter);
+        contactViewHolder.vEpisodeslist.setOnItemClickListener(episodeOnItemClickListener);
+        adapter.notifyDataSetChanged();
     }
+
+    private AdapterView.OnItemClickListener episodeOnItemClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // This comment is of no use
+            int i = parent.getCount();
+            TextView ij = (TextView)parent.findViewById(R.id.ei_episode_title);
+            Log.e("This",ij.getText().toString());
+            Intent newerIntent = new Intent(activity, EpisodesDetails.class);
+            newerIntent.putExtra("season_number", String.valueOf(activeSeries));
+            newerIntent.putExtra("episode_number", String.valueOf(id+1));
+            activity.startActivity(newerIntent);
+        }
+    };
 
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
