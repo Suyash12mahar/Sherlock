@@ -14,8 +14,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ListView;
@@ -26,7 +28,7 @@ import java.util.*;
 public class SeriesDisplay extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ExpandableSeriesAdapter adapter;
-    private List<Series> seriesList;
+    private List<Series> seriesList = new ArrayList<>();
     private DatabaseHelper dbHelper;
 
     public SeriesDisplay() {
@@ -43,22 +45,19 @@ public class SeriesDisplay extends AppCompatActivity {
 
         initCollapsingToolbar();
 
-        recyclerView = (RecyclerView) findViewById(R.id.sd_recycler_view);
+        adapter = new ExpandableSeriesAdapter(seriesList, this);
+        RecyclerView recList = (RecyclerView) findViewById(R.id.sd_recycler_view);
+        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+        recList.setAdapter(adapter);
 
-        seriesList = new ArrayList<>();
+        populateList();
 
-        adapter = new ExpandableSeriesAdapter( seriesList);
-
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(0), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        prepareSeries();
+        adapter.notifyDataSetChanged();
     }
-
-    private void prepareSeries(){
+    private void populateList(){
         dbHelper = new DatabaseHelper(this);
 
         try{
@@ -70,26 +69,28 @@ public class SeriesDisplay extends AppCompatActivity {
         }
 
         try{
-            Cursor cursor = dbHelper.QueryData("SELECT * FROM seasons");
+            Cursor cursor = dbHelper.QueryData("SELECT * FROM series");
             if (cursor != null){
                 if (cursor.moveToFirst()){
                     do {
-                        int seriesNumber = 1;
-                        String ratings = "4.5";
-                        String airDate = "January 2091";
-                        String imdbLink = "https://www.google.com";
-                        String bbcLink = "https://www.google.com";
+                        int seriesNumber = cursor.getInt(0);
+                        String ratings = cursor.getString(1);
+                        String airDate = cursor.getString(2);
+                        String imdbLink = cursor.getString(3);
+                        String bbcLink = cursor.getString(4);
                         Series item = new Series(seriesNumber, ratings, airDate, imdbLink, bbcLink);
                         seriesList.add(item);
                     }while (cursor.moveToNext());
                 }
             }
         } catch (SQLiteException e){
+            Log.e("LOG","Eroor");
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
 
     }
+
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
