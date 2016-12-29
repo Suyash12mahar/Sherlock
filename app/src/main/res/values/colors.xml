@@ -3,4 +3,5 @@
     <color name="colorPrimary">#a06800</color>//3F51B5
     <color name="colorPrimaryDark">#a06800</color>//303F9F
     <color name="colorAccent">#FF4081</color>
+    <color name="imdbYellow">#f3ce13</color>
 </resources>
