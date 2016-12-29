@@ -25,8 +25,8 @@ import java.util.*;
 
 public class SeriesDisplay extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private SeriesAdapter adapter;
-    private List<SeasonCard> seriesList;
+    private ExpandableSeriesAdapter adapter;
+    private List<Series> seriesList;
     private DatabaseHelper dbHelper;
 
     public SeriesDisplay() {
@@ -46,14 +46,8 @@ public class SeriesDisplay extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.sd_recycler_view);
 
         seriesList = new ArrayList<>();
-        adapter = new SeriesAdapter(this, seriesList, new OnItemClickListener() {
-            @Override
-            public void OnItemClick(SeasonCard item) {
-                Intent newIntent = new Intent(SeriesDisplay.this, Season1Activity.class);
-                newIntent.putExtra("season_number", String.valueOf(item.getSeasonNumber().replaceAll("Season ","")));
-                startActivity(newIntent);
-            }
-        });
+
+        adapter = new ExpandableSeriesAdapter(this, seriesList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -80,10 +74,12 @@ public class SeriesDisplay extends AppCompatActivity {
             if (cursor != null){
                 if (cursor.moveToFirst()){
                     do {
-                        String seasonNumber = cursor.getString(0);
-                        String time = cursor.getString(1);
-                        String Ratings = (cursor.getString(2));
-                        SeasonCard item = new SeasonCard(seasonNumber,time,Ratings);
+                        int seriesNumber = 1;
+                        String ratings = "4.5";
+                        String airDate = "January 2091";
+                        String imdbLink = "https://www.google.com";
+                        String bbcLink = "https://www.google.com";
+                        Series item = new Series(seriesNumber, ratings, airDate, imdbLink, bbcLink);
                         seriesList.add(item);
                     }while (cursor.moveToNext());
                 }

@@ -18,7 +18,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".EpisodeItem" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".TestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".EpisodeDetails" />
         <activity android:name=".ViewVideoTest" />
         <activity
@@ -36,11 +42,7 @@
             android:name=".SeriesDisplay"
             android:label="@string/title_activity_series_display"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

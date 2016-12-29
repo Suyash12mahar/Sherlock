@@ -88,11 +88,13 @@ public class EpisodesDetails extends AppCompatActivity {
         String imageName = String.format("img_%d_%d", seasonNumber, episodeNumber);
 
         int drawableResourceId = -1;
+
         try{
             drawableResourceId = this.getResources().getIdentifier(imageName, "drawable", this.getPackageName());
             episodeImage.setImageResource(drawableResourceId);
         } catch (Exception e){
             Toast.makeText(this, "Error displaying image." , Toast.LENGTH_LONG).show();
         }
+
     }
 }
