@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
     public Activity activity;
     private List<Series> list;
     private int expandedPosition = -1;
+    private List<Integer> expandedPositions = new ArrayList<>();
     int activeSeries = 1;
 
     public ExpandableSeriesAdapter(List<Series> list, Activity activity) {
@@ -85,14 +87,35 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             @Override
             public void onClick(View v) {
                 ContactViewHolder holder = (ContactViewHolder) v.getTag();
-
+/*
                 // Check for an expanded view, collapse if you find one
                 if (expandedPosition >= 0) {
                     int prev = expandedPosition;
                     notifyItemChanged(prev);
+                    expandedPosition = -1;
+
+                } else {
+                    expandedPosition = holder.getAdapterPosition();
+
                 }
                 // Set the current position to "expanded"
-                expandedPosition = holder.getAdapterPosition();
+                
+                */
+
+                /* Working w/o animation
+                if (((int) contactViewHolder.getItemId()) == expandedPosition) {
+                    contactViewHolder.vExpandableArea.setVisibility(View.VISIBLE);
+                    expandedPosition = holder.getAdapterPosition();
+                    contactViewHolder.vExpandCollapse.setText("6");
+                } else {
+                    contactViewHolder.vExpandableArea.setVisibility(View.GONE);
+                    expandedPosition = -1;
+                }
+                notifyItemChanged((int)contactViewHolder.getItemId());
+                */
+                contactViewHolder.vExpandableArea.setVisibility( contactViewHolder.vExpandableArea.isShown()
+                        ? View.GONE
+                        : View.VISIBLE );
             }
         });
 

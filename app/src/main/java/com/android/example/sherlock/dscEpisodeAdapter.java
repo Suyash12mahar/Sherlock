@@ -40,10 +40,12 @@ public class dscEpisodeAdapter extends ArrayAdapter<dscEpisode>{
 
         titleTextView.setText((episode.getTitle()));
 
+        // Sets image resource for episode image (series 1, episode3 : img_1_2.png)
         String imageName = String.format("img_%d_%d", episode.getSeriesNumber(), episode.getEpisodeNumber());
         int resourceId = -1;
         resourceId = activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName());
         if (resourceId != 0) {
+
             thumbnailImage.setImageResource(activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName()));
         } else {
             thumbnailImage.setImageResource(R.drawable.thumbnail_extra_wide_png);
