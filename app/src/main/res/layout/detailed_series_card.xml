@@ -3,6 +3,7 @@
 <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,34 +14,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:padding="@dimen/card_margin"
+            android:paddingTop="24dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:id="@+id/dsc_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Display1"
             android:text="Series 1"
-            android:textSize="40sp"
             />
         <TextView
-            android:id="@+id/dsc_air_date_text_view"
-            android:padding="@dimen/card_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dsc_title_text_view"
-            android:layout_toRightOf="@+id/dsc_ratings"
-            android:paddingLeft="10dp"
-            android:text="January 2016"
-            android:textColor="#DEDEE1"
-            android:textSize="20sp"/>
-        <TextView
-            android:padding="@dimen/card_margin"
+            android:paddingLeft="16dp"
             android:id="@+id/dsc_ratings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="false"
             android:layout_below="@+id/dsc_title_text_view"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textColor="@color/colorPrimary"
             android:text="★ 4.4"/>
+        <TextView
+            android:id="@+id/dsc_air_date_text_view"
+            android:paddingLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dsc_title_text_view"
+            android:layout_toRightOf="@+id/dsc_ratings"
+            android:text="January 2016"
+            android:textColor="#DEDEE1"
+            android:textSize="16sp"/>
         <!--
         <ImageView
             android:layout_alignParentRight="true"
@@ -54,19 +57,22 @@
             android:layout_marginTop="10dp"
             android:layout_below="@id/dsc_ratings"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray" />
+            android:layout_height="1dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="10dp"
+            android:background="#16000000"/>
         <Button
             android:id="@+id/dsc_imbdb_button"
+
             android:layout_below="@+id/dsc_action_seperator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
             android:text="IMDb"
             android:foregroundTint="@color/imdbYellow"
+            android:background="@android:color/transparent"
             android:textColor="@color/colorPrimary"
             style="?android:attr/borderlessButtonStyle"
-            android:paddingBottom="10dp"
             />
 
         <Button
@@ -76,32 +82,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="?android:attr/borderlessButtonStyle"
+            android:background="@android:color/transparent"
             android:textColor="@color/colorPrimary"
             android:text="BBC"
-            android:paddingBottom="10dp"
             />
         <Button
-            android:id="@+id/dsc_expand_close_button"
+            android:visibility="invisible"
+            android:id="@+id/dsc_expand_close_button_"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/dsc_action_seperator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="@android:color/transparent"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:text="\u2227"
-            android:paddingBottom="10dp"
-        />
-        <View
-            android:id="@+id/dsc_expanded_seperator"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/dsc_imbdb_button"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray" />
+            tools:text="..." />
+        <ImageButton
+            android:scaleType="fitCenter"
+            android:id="@+id/dsc_expand_close_button"
+            card_view:srcCompat="@drawable/expand_arrow"
+            android:layout_below="@+id/dsc_action_seperator"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+             />
         <LinearLayout
             android:id="@+id/dsc_expand_layout"
-            android:layout_below="@+id/dsc_expanded_seperator"
+            android:layout_below="@+id/dsc_expand_close_button"
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content">
@@ -110,7 +120,7 @@
 
                 android:id="@+id/dsc_episode_list"
                 android:layout_width="match_parent"
-                android:layout_height="822dp"
+                android:layout_height="600dp"
                 android:scrollbars="vertical"
                 android:layout_below="@+id/dsc_expanded_seperator"
 
@@ -119,6 +129,8 @@
             </ListView>
 
         </LinearLayout>
+
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

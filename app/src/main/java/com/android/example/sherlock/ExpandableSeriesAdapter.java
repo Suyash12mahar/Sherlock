@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -87,35 +88,16 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             @Override
             public void onClick(View v) {
                 ContactViewHolder holder = (ContactViewHolder) v.getTag();
-/*
-                // Check for an expanded view, collapse if you find one
-                if (expandedPosition >= 0) {
-                    int prev = expandedPosition;
-                    notifyItemChanged(prev);
-                    expandedPosition = -1;
 
-                } else {
-                    expandedPosition = holder.getAdapterPosition();
-
-                }
-                // Set the current position to "expanded"
-                
-                */
-
-                /* Working w/o animation
-                if (((int) contactViewHolder.getItemId()) == expandedPosition) {
-                    contactViewHolder.vExpandableArea.setVisibility(View.VISIBLE);
-                    expandedPosition = holder.getAdapterPosition();
-                    contactViewHolder.vExpandCollapse.setText("6");
-                } else {
+                if (contactViewHolder.vExpandableArea.isShown()){
+                    Effects.dsc_collapse(v.getContext(), contactViewHolder.vExpandableArea);
                     contactViewHolder.vExpandableArea.setVisibility(View.GONE);
-                    expandedPosition = -1;
+                    contactViewHolder.vExpandCollapse.setImageResource(R.drawable.expand_arrow);
+                } else {
+                    Effects.dsc_expand(v.getContext(), contactViewHolder.vExpandableArea);
+                    contactViewHolder.vExpandableArea.setVisibility(View.VISIBLE);
+                    contactViewHolder.vExpandCollapse.setImageResource(R.drawable.collapse_arrow);
                 }
-                notifyItemChanged((int)contactViewHolder.getItemId());
-                */
-                contactViewHolder.vExpandableArea.setVisibility( contactViewHolder.vExpandableArea.isShown()
-                        ? View.GONE
-                        : View.VISIBLE );
             }
         });
 
@@ -138,7 +120,6 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             if (cursor != null){
                 if (cursor.moveToFirst()){
                     do {
-                        // TODO Update to include new adapters
                         dscEpisode item = new dscEpisode();
                         item.setTitle(cursor.getString(3));
                         item.setSeriesNumber(cursor.getInt(1));
@@ -193,7 +174,8 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         protected TextView vTitle, vRatings, vAirDate;
-        protected Button vImdb, vBbc, vExpandCollapse;
+        protected Button vImdb, vBbc ;
+        protected ImageButton vExpandCollapse;
         protected LinearLayout vExpandableArea;
         protected ListView vEpisodeslist;
 
@@ -204,7 +186,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             vAirDate =  (TextView) v.findViewById(R.id.dsc_air_date_text_view);
             vImdb =  (Button) v.findViewById(R.id.dsc_imbdb_button);
             vBbc =  (Button) v.findViewById(R.id.dsc_bbc_button);
-            vExpandCollapse =  (Button) v.findViewById(R.id.dsc_expand_close_button);
+            vExpandCollapse =  (ImageButton) v.findViewById(R.id.dsc_expand_close_button);
             vExpandableArea = (LinearLayout) v.findViewById(R.id.dsc_expand_layout);
             vEpisodeslist = (ListView) v.findViewById(R.id.dsc_episode_list);
 

@@ -15,12 +15,12 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+            android:id="@+id/aed_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:title="This">
             <ImageView
                 android:id="@+id/episode_image"
@@ -31,7 +31,7 @@
                 android:scaleType="centerCrop"
                 android:elevation="3dp" />
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/aed_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
@@ -52,5 +52,4 @@
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <include layout="@layout/content_episodes_details" />
-
 </android.support.design.widget.CoordinatorLayout>

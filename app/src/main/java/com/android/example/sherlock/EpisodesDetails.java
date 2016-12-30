@@ -27,14 +27,15 @@ public class EpisodesDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episodes_details_scroll);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.aed_toolbar);
+
         Bundle extras = getIntent().getExtras();
         seasonNumber = Integer.parseInt(extras.getString("season_number"));
         episodeNumber = Integer.parseInt(extras.getString("episode_number"));
 
         dbHelper = new DatabaseHelper(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout)findViewById(R.id.aed_toolbar_layout);
         ImageView episodeImage = (ImageView) findViewById(R.id.episode_image);
         TextView seasonNumberTextView = (TextView) findViewById(R.id.episode_season_number);
         TextView runtimeTextView = (TextView) findViewById(R.id.episode_des_runtime);
@@ -72,9 +73,10 @@ public class EpisodesDetails extends AppCompatActivity {
                         seasonNumberTextView.setText(cursor.getString(1));
                         episodeDescriptionTextView.setText(cursor.getString(4));
                         runtimeTextView.setText("\uD83D\uDD51 " + cursor.getString(5));
-                        viewsTextView.setText("\uD83D\uDC41 " + cursor.getString(6) + " mn");
+                        viewsTextView.setText("Views " + cursor.getString(6) + " mn");
                         basedOnTextView.setText(cursor.getString(8));
 
+                        toolbar.setTitle(cursor.getString(3));
                     } while (cursor.moveToNext());
                 }
             }
