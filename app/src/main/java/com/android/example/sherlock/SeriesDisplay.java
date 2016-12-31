@@ -20,7 +20,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.*;
@@ -40,18 +42,29 @@ public class SeriesDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_series_display);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        RecyclerView recList = (RecyclerView) findViewById(R.id.sd_recycler_view);
+
         setSupportActionBar(toolbar);
 
         initCollapsingToolbar();
 
         adapter = new ExpandableSeriesAdapter(seriesList, this);
-        RecyclerView recList = (RecyclerView) findViewById(R.id.sd_recycler_view);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
         recList.setAdapter(adapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sd_about_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            Intent newIntent = new Intent(SeriesDisplay.this, AboutActivity.class);
+                startActivity(newIntent);
+            }
+        });
 
         populateList();
 
@@ -84,7 +97,7 @@ public class SeriesDisplay extends AppCompatActivity {
                 }
             }
         } catch (SQLiteException e){
-            Log.e("LOG","Eroor");
+            Log.e("LOG","Error");
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
         //adapter.notifyDataSetChanged();
@@ -158,4 +171,5 @@ public class SeriesDisplay extends AppCompatActivity {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
+
 }

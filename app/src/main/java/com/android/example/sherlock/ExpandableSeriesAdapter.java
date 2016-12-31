@@ -95,6 +95,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                     contactViewHolder.vExpandCollapse.setImageResource(R.drawable.expand_arrow);
                 } else {
                     Effects.dsc_expand(v.getContext(), contactViewHolder.vExpandableArea);
+                    activeSeries =Integer.parseInt(contactViewHolder.vTitle.getText().charAt(contactViewHolder.vTitle.getText().length()-1) + "");
                     contactViewHolder.vExpandableArea.setVisibility(View.VISIBLE);
                     contactViewHolder.vExpandCollapse.setImageResource(R.drawable.collapse_arrow);
                 }

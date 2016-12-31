@@ -11,8 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Season1Activity">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.SERIES_EPISODES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -26,13 +27,10 @@
         <activity
             android:name=".ExpandableListView"
             android:label="@string/title_activity_expandable_list_view"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SeriesDisplay"
             android:label="@string/title_activity_series_display"
-
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +38,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DrawerEpisodeDetails"
+            android:label="@string/title_activity_drawer_episode_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

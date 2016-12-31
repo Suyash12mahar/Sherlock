@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/based_on_textView"
         android:layout_below="@+id/description_seperator"
-        tools:text="-\_(-_-)_/-"
+        tools:text="-\\_(-_-)_/-"
         android:paddingBottom="20dp"/>
 
     <TextView

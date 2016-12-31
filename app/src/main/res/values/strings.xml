@@ -101,4 +101,6 @@
     </string>
     <string name="title_activity_expandable_list_view">ExpandableListView</string>
     <string name="title_activity_series_display">SeriesDisplay</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_drawer_episode_details">DrawerEpisodeDetails</string>
 </resources>
