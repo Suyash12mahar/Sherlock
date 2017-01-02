@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,9 +24,9 @@ public class EpisodesDetails extends AppCompatActivity {
     int seasonNumber;
     int episodeNumber;
     DatabaseHelper dbHelper;
-    final String imdbLink = null;
-    final String bbcLink = null;
-    final String wikipediaLink = null;
+    String imdbLink = null;
+    String bbcLink = null;
+    String wikipediaLink = null;
 
 
     @Override
@@ -102,6 +103,10 @@ public class EpisodesDetails extends AppCompatActivity {
                         viewsTextView.setText("Views " + cursor.getString(6) + " mn");
                         basedOnTextView.setText(cursor.getString(8));
 
+                        bbcLink = cursor.getString(12);
+                        imdbLink = cursor.getString(13);
+                        wikipediaLink = cursor.getString(14);
+
                         toolbar.setTitle(cursor.getString(3));
                     } while (cursor.moveToNext());
                 }
@@ -124,6 +129,49 @@ public class EpisodesDetails extends AppCompatActivity {
             Toast.makeText(this, "Error displaying image." , Toast.LENGTH_LONG).show();
         }
 
+        if (imdbLink.equals("NA")){
+            imdbButton.setEnabled(false);
+        }
+
+        if (bbcLink.equals("NA")){
+            bbcButton.setEnabled(false);
+        }
+
+        if (wikipediaLink.equals("NA")){
+            wikipediaButton.setEnabled(false);
+        }
+        // Sets onClickListener for link buttons
+        imdbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBrowser(imdbLink);
+            }
+        });
+
+        bbcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBrowser(bbcLink);
+            }
+        });
+
+        wikipediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBrowser(wikipediaLink);
+            }
+        });
+
+    }
+
+    public void openBrowser(String link){
+        try{
+
+        } catch (Exception e) {
+            Log.e("Link Error", e.getStackTrace().toString());
+        }
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(browserIntent);
     }
 
 
