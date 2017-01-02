@@ -8,4 +8,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_season_radius">2dp</dimen>
 </resources>

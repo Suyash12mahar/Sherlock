@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.android.example.sherlock.EpisodesDetails">
+    tools:context="com.android.example.sherlock.SeriesDisplay">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -15,28 +15,22 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/aed_toolbar_layout"
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-
-            app:title="This">
+            android:elevation="3dp">
             <ImageView
-                android:id="@+id/episode_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="false"
-                android:cropToPadding="false"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:elevation="3dp"/>
+                android:src="@drawable/thumbnail_extra_wide_png"/>
             <android.support.v7.widget.Toolbar
-                android:id="@+id/aed_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:foreground="@color/colorPrimary"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -44,13 +38,14 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/sd_about_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_dialog_box_about"
+        android:onClick="on_about_click"/>
 
-    <include layout="@layout/content_episodes_details" />
+    <include layout="@layout/content_series_display" />
 </android.support.design.widget.CoordinatorLayout>
