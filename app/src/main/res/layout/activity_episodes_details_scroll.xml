@@ -21,6 +21,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
             app:title="This">
             <ImageView
                 android:id="@+id/episode_image"
@@ -29,7 +30,7 @@
                 android:adjustViewBounds="false"
                 android:cropToPadding="false"
                 android:scaleType="centerCrop"
-                android:elevation="3dp" />
+                android:elevation="3dp"/>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/aed_toolbar"
                 android:layout_width="match_parent"

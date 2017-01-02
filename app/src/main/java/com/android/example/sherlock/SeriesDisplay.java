@@ -93,15 +93,13 @@ public class SeriesDisplay extends AppCompatActivity {
                         String bbcLink = cursor.getString(4);
                         Series item = new Series(seriesNumber, ratings, airDate, imdbLink, bbcLink);
                         seriesList.add(item);
-                    }while (cursor.moveToNext());
+                    } while (cursor.moveToNext());
                 }
             }
         } catch (SQLiteException e){
             Log.e("LOG","Error");
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
-        //adapter.notifyDataSetChanged();
-
     }
 
     private void initCollapsingToolbar() {
