@@ -20,6 +20,22 @@ public class SeasonCard{
         this.airDate = airDate;
     }
 
+    public String getImdbLink() {
+        return imdbLink;
+    }
+
+    public void setImdbLink(String imdbLink) {
+        this.imdbLink = imdbLink;
+    }
+
+    public String getBbcLink() {
+        return bbcLink;
+    }
+
+    public void setBbcLink(String bbcLink) {
+        this.bbcLink = bbcLink;
+    }
+
     public String getRatings() {
         return ratings;
     }
@@ -37,5 +53,6 @@ public class SeasonCard{
     private String seasonNumber;
     private String airDate;
     private String ratings;
-
+    private String imdbLink;
+    private String bbcLink;
 }

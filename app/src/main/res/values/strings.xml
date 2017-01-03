@@ -2,6 +2,7 @@
     <string name="app_name">Sherlock</string>
     <string name="title_activity_season_details">SeasonDetails</string>
 
+    <string name="youtube_api_key">AIzaSyDiecP5EyCAvjjObnQABChLECLljHHD1tc</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -17,4 +18,5 @@
     <string name="title_activity_drawer_episode_details">DrawerEpisodeDetails</string>
     <string name="unicode_clock">🕑 </string>
     <string name="a">a</string>
+    <string name="title_activity_episode_details_vid">EpisodeDetailsVid</string>
 </resources>

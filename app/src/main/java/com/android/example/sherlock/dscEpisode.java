@@ -9,6 +9,8 @@ public class dscEpisode {
     private int episodeNumber;
     private int thumbnailID;
     private String title;
+    private String imdbLink;
+    private String bbcLink;
 
     public dscEpisode(){
 
@@ -18,6 +20,22 @@ public class dscEpisode {
         this.episodeNumber = episodeNumber;
         this.thumbnailID = thumbnailID;
         this.title = title;
+    }
+
+    public String getImdbLink() {
+        return imdbLink;
+    }
+
+    public void setImdbLink(String imdbLink) {
+        this.imdbLink = imdbLink;
+    }
+
+    public String getBbcLink() {
+        return bbcLink;
+    }
+
+    public void setBbcLink(String bbcLink) {
+        this.bbcLink = bbcLink;
     }
 
     public int getSeriesNumber() {

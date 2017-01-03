@@ -9,7 +9,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static android.R.attr.id;
 import static android.R.attr.packageNames;
@@ -41,6 +46,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
     private List<Series> list;
     private int expandedPosition = -1;
     private List<Integer> expandedPositions = new ArrayList<>();
+    private ArrayList<ContactViewHolder> holderList = new ArrayList<ContactViewHolder>();
     int activeSeries = 1;
 
     public ExpandableSeriesAdapter(List<Series> list, Activity activity) {
@@ -69,7 +75,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
         contactViewHolder.vBbc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+                Uri uri = Uri.parse("http://www.google.com");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 activity.startActivity(intent);
             }
@@ -78,7 +84,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
         contactViewHolder.vImdb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+                Uri uri = Uri.parse("http://www.google.com");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 activity.startActivity(intent);
             }
@@ -88,7 +94,16 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             @Override
             public void onClick(View v) {
                 ContactViewHolder holder = (ContactViewHolder) v.getTag();
-
+                if (!holderList.contains(holder)){
+                    holderList.add(holder);
+                }
+                for (ContactViewHolder holderItem : holderList){
+                    if (holderItem.vExpandableArea.isShown() && !holderItem.equals(contactViewHolder)){
+                        Effects.dsc_collapse(v.getContext(), holderItem.vExpandableArea);
+                        holderItem.vExpandableArea.setVisibility(View.GONE);
+                        holderItem.vExpandCollapse.setImageResource(R.drawable.expand_arrow);
+                    }
+                }
                 if (contactViewHolder.vExpandableArea.isShown()){
                     Effects.dsc_collapse(v.getContext(), contactViewHolder.vExpandableArea);
                     contactViewHolder.vExpandableArea.setVisibility(View.GONE);
@@ -110,7 +125,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
         }
         catch(SQLException e){
             Toast.makeText(activity, "Error reading database", Toast.LENGTH_LONG);
-            Log.d("TAG", "Error accessing database");//MinGW
+            Log.d("TAG", "Error accessing database");
         }
 
         String queryString = String.format(
@@ -132,7 +147,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                         if (resourceId != 0) {
                             item.setThumbnailID(activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName()));
                         } else {
-                            item.setThumbnailID(R.drawable.thumbnail_extra_wide_png);
+                            item.setThumbnailID(R.drawable.thumbnail_extra_wide_png_low_res);
                         }
                         episodeList.add(item);
                     }while (cursor.moveToNext());
