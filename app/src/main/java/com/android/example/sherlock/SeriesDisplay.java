@@ -87,7 +87,7 @@ public class SeriesDisplay extends AppCompatActivity {
                 if (cursor.moveToFirst()){
                     do {
                         int seriesNumber = cursor.getInt(0);
-                        String ratings = cursor.getString(1);
+                        String ratings = cursor.getString(1) + " \u2605";
                         String airDate = cursor.getString(2);
                         String imdbLink = cursor.getString(3);
                         String bbcLink = cursor.getString(4);
