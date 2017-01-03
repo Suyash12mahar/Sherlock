@@ -25,6 +25,8 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import org.w3c.dom.Text;
+
 public class EpisodesDetails extends YouTubeBaseActivity {
     int seasonNumber;
     int episodeNumber;
@@ -57,7 +59,8 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         final Button imdbButton = (Button) findViewById(R.id.imbdb_button);
         final Button bbcButton = (Button) findViewById(R.id.bbc_button);
         final Button wikipediaButton = (Button) findViewById(R.id.wikipedia_button);
-
+        final TextView ratings = (TextView) findViewById(R.id.episode_des_ratings);
+        final TextView ratingsScale = (TextView) findViewById(R.id.episode_des_ratings_scale);
         //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -108,6 +111,12 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                         viewsTextView.setText("Views " + cursor.getString(6) + " mn");
                         basedOnTextView.setText(cursor.getString(8));
 
+                        ratings.setText(cursor.getString(16));
+                        if (ratings.getText().equals("NA")){
+                            ratingsScale.setVisibility(View.INVISIBLE);
+                        } else {
+                            ratingsScale.setText("/" + cursor.getString(17));
+                        }
                         bbcLink = cursor.getString(12);
                         imdbLink = cursor.getString(13);
                         wikipediaLink = cursor.getString(14);

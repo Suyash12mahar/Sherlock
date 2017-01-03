@@ -147,7 +147,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                         if (resourceId != 0) {
                             item.setThumbnailID(activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName()));
                         } else {
-                            item.setThumbnailID(R.drawable.thumbnail_extra_wide_png_low_res);
+                            item.setThumbnailID(R.drawable.thumbnail_extra_wide_png);
                         }
                         episodeList.add(item);
                     }while (cursor.moveToNext());

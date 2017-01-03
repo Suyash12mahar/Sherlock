@@ -11,9 +11,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:id="@+id/releative_layout_episode_info"
-            android:layout_height="wrap_content"
+        android:layout_height="wrap_content"
         android:elevation="1dp"
         android:outlineProvider="background"
         android:fadingEdge="none"
@@ -66,14 +66,47 @@
             android:elevation="2dp" />
     </RelativeLayout>
     <TextView
+        android:id="@+id/episode_des_IMDB"
+        android:layout_below="@id/releative_layout_episode_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="\u2605"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:textSize="22sp"
+        />
+    <TextView
+        android:id="@+id/episode_des_ratings"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/releative_layout_episode_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/episode_des_IMDB"
+        android:layout_marginLeft="8dp"
+        android:text="10/"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+    />
+    <TextView
+        android:id="@+id/episode_des_ratings_scale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/releative_layout_episode_info"
+        android:layout_marginTop="8sp"
+        android:paddingTop="8dp"
+        android:layout_toRightOf="@id/episode_des_ratings"
+        android:text="10"
+        />
+    <TextView
         android:layout_marginTop="10dp"
         android:text="Runtime : 12:12:45"
         android:paddingLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/episode_des_runtime"
-        android:layout_below="@+id/releative_layout_episode_info"
-        android:textColor="@color/colorPrimary" />
+        android:layout_below="@+id/episode_des_ratings" />
 
     <TextView
         android:text="Views"
@@ -81,10 +114,9 @@
         android:paddingRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/releative_layout_episode_info"
+        android:layout_below="@+id/episode_des_ratings"
         android:layout_alignParentRight="true"
-        android:id="@+id/episode_des_views"
-        android:textColor="@color/colorPrimary" />
+        android:id="@+id/episode_des_views"/>
 
     <TextView
         android:layout_marginTop="20dp"
@@ -99,6 +131,7 @@
         android:layout_alignParentStart="true"/>
 
     <TextView
+
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
