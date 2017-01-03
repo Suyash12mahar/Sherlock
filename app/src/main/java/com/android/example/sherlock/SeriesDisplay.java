@@ -98,6 +98,7 @@ public class SeriesDisplay extends AppCompatActivity {
             }
         } catch (SQLiteException e){
             Log.e("LOG","Error");
+            Log.e("LOG", e.getMessage());
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
     }

@@ -3,11 +3,9 @@
     package="com.android.example.sherlock">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -17,11 +15,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".SeriesDisplay"
-            android:label="@string/title_activity_series_display"
             android:icon="@mipmap/ic_launcher"
+            android:label="@string/title_activity_series_display"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,6 +28,12 @@
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EpisodeDetailsVid"
+            android:label="@string/title_activity_episode_details_vid"
+            android:theme="@style/AppTheme">
+
+        </activity>
     </application>
 
 </manifest>

@@ -121,18 +121,25 @@
         android:layout_below="@+id/description_seperator"
         android:paddingBottom="20dp"/>
 
+
+
+
     <TextView
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
-        android:text="Read more on"
+        android:text="Trailor"
         android:textAlignment="gravity"
         android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/more_on_text_view"
+        android:id="@+id/trailer_view_seperator"
         android:layout_below="@+id/based_on_textView" />
-
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/aed_youtube_trailor_view"
+        android:layout_below="@id/trailer_view_seperator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/imbdb_button"
         android:layout_marginLeft="10dp"
@@ -143,7 +150,17 @@
         android:backgroundTint="#FFF3CE13"
         android:paddingBottom="10dp"
         />
-
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:text="Read more on"
+        android:textAlignment="gravity"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/more_on_text_view"
+        android:layout_below="@+id/aed_youtube_trailor_view" />
     <Button
         android:id="@+id/wikipedia_button"
         android:layout_marginLeft="10dp"
@@ -165,7 +182,6 @@
         android:textColor="#FFFFFF"
         android:backgroundTint="#000000"
         android:text="BBC"
-        android:paddingBottom="10dp"
-        />
+        android:paddingBottom="10dp"/>
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

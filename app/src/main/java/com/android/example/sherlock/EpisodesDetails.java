@@ -20,14 +20,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EpisodesDetails extends AppCompatActivity {
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+
+public class EpisodesDetails extends YouTubeBaseActivity {
     int seasonNumber;
     int episodeNumber;
     DatabaseHelper dbHelper;
     String imdbLink = null;
     String bbcLink = null;
     String wikipediaLink = null;
-
+    String trailorLink = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class EpisodesDetails extends AppCompatActivity {
         final Button bbcButton = (Button) findViewById(R.id.bbc_button);
         final Button wikipediaButton = (Button) findViewById(R.id.wikipedia_button);
 
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +112,7 @@ public class EpisodesDetails extends AppCompatActivity {
                         imdbLink = cursor.getString(13);
                         wikipediaLink = cursor.getString(14);
 
+                        trailorLink = cursor.getString(15);
                         toolbar.setTitle(cursor.getString(3));
                     } while (cursor.moveToNext());
                 }
@@ -118,7 +124,7 @@ public class EpisodesDetails extends AppCompatActivity {
         }
 
         String folderPath = "@drawable/";
-        String imageName = String.format("img_%d_%d", seasonNumber, episodeNumber);
+        String imageName = String.format("img_%d_%d_high_res", seasonNumber, episodeNumber);
 
         int drawableResourceId = -1;
 
@@ -161,6 +167,28 @@ public class EpisodesDetails extends AppCompatActivity {
                 openBrowser(wikipediaLink);
             }
         });
+
+        // shows video here
+        final YouTubePlayerView videoPlayer = (YouTubePlayerView) findViewById(R.id.aed_youtube_trailor_view);
+        videoPlayer.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                if (trailorLink != null){
+                    if (!trailorLink.equals("NA")){
+                        youTubePlayer.loadVideo(trailorLink);
+                        youTubePlayer.pause();
+                    }
+                } else {
+                    Toast.makeText(EpisodesDetails.this,"Error: Unable to load video",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(EpisodesDetails.this,"Error: Unable to initialize player",Toast.LENGTH_LONG).show();
+            }
+        });
+
 
     }
 
