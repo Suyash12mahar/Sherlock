@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="3dp"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:id="@+id/cc_image"
+            android:layout_width="90dp"
+            android:layout_height="123.75dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/user_default"/>
+        <TextView
+            android:id="@+id/cc_character_name"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Character Name"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_width="186dp"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Headline"/>
+        <TextView
+            android:id="@+id/cc_real_name"
+            android:text="Real Name"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="24dp"
+            android:layout_below="@+id/cc_character_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

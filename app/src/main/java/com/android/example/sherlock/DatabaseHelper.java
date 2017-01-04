@@ -19,7 +19,8 @@ import java.io.OutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private String db_path = "/data/data/com.android.example.sherlock/";
-    private static String db_name = "SherlockDatabase_.sqlite";
+    private static String db_name = "SherlockDatabaseNew.sqlite";
+    //
     private SQLiteDatabase myDatabase;
     public final Context myContext;
     public DatabaseHelper(Context context) {

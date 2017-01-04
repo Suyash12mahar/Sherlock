@@ -12,6 +12,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,9 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EpisodesDetails extends YouTubeBaseActivity {
     int seasonNumber;
     int episodeNumber;
@@ -35,6 +40,8 @@ public class EpisodesDetails extends YouTubeBaseActivity {
     String bbcLink = null;
     String wikipediaLink = null;
     String trailorLink = null;
+    String castString = null;
+    CastAdapter castAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +50,14 @@ public class EpisodesDetails extends YouTubeBaseActivity {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.aed_toolbar);
 
+
         Bundle extras = getIntent().getExtras();
         seasonNumber = Integer.parseInt(extras.getString("season_number"));
         episodeNumber = Integer.parseInt(extras.getString("episode_number"));
 
         dbHelper = new DatabaseHelper(this);
 
+        //cast_view_seperator
         final CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout)findViewById(R.id.aed_toolbar_layout);
         final ImageView episodeImage = (ImageView) findViewById(R.id.episode_image);
         final TextView seasonNumberTextView = (TextView) findViewById(R.id.episode_season_number);
@@ -56,11 +65,15 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         final TextView viewsTextView = (TextView) findViewById(R.id.episode_des_views);
         final TextView episodeDescriptionTextView = (TextView) findViewById(R.id.episode_des_des);
         final TextView basedOnTextView = (TextView) findViewById(R.id.based_on_textView);
+        final TextView expandDescription = (TextView) findViewById(R.id.episode_des_expand_des);
+        final TextView castViewSeperator = (TextView) findViewById(R.id.cast_view_seperator);
         final Button imdbButton = (Button) findViewById(R.id.imbdb_button);
         final Button bbcButton = (Button) findViewById(R.id.bbc_button);
         final Button wikipediaButton = (Button) findViewById(R.id.wikipedia_button);
         final TextView ratings = (TextView) findViewById(R.id.episode_des_ratings);
         final TextView ratingsScale = (TextView) findViewById(R.id.episode_des_ratings_scale);
+        RecyclerView castView = (RecyclerView) findViewById(R.id.episode_des_cast);
+
         //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -117,6 +130,9 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                         } else {
                             ratingsScale.setText("/" + cursor.getString(17));
                         }
+
+                        castString = cursor.getString(18);
+
                         bbcLink = cursor.getString(12);
                         imdbLink = cursor.getString(13);
                         wikipediaLink = cursor.getString(14);
@@ -181,7 +197,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         final YouTubePlayerView videoPlayer = (YouTubePlayerView) findViewById(R.id.aed_youtube_trailor_view);
         videoPlayer.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
                 if (trailorLink != null){
                     if (!trailorLink.equals("NA")){
                         youTubePlayer.loadVideo(trailorLink);
@@ -190,6 +206,37 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                 } else {
                     Toast.makeText(EpisodesDetails.this,"Error: Unable to load video",Toast.LENGTH_LONG).show();
                 }
+                youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                    @Override
+                    public void onLoading() {
+
+                    }
+
+                    @Override
+                    public void onLoaded(String s) {
+                        youTubePlayer.pause();
+                    }
+
+                    @Override
+                    public void onAdStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoEnded() {
+
+                    }
+
+                    @Override
+                    public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                    }
+                });
             }
 
             @Override
@@ -199,6 +246,37 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         });
 
 
+
+        expandDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleDescriptionLength(episodeDescriptionTextView,expandDescription);
+            }
+        });
+        episodeDescriptionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleDescriptionLength(episodeDescriptionTextView,expandDescription);
+            }
+        });
+
+        populateCastView(castView);
+        if (!castString.equals("NA")) {
+            castAdapter.notifyDataSetChanged();
+        } else{
+            castViewSeperator.setVisibility(View.GONE);
+            castView.setVisibility(View.GONE);
+        }
+    }
+    public void toggleDescriptionLength(TextView deccriptionView, TextView indicatorTextView){
+        if (deccriptionView.getMaxLines()==5){
+            deccriptionView.setMaxLines(Integer.MAX_VALUE);
+            indicatorTextView.setText("show less");
+        }
+        else {
+            deccriptionView.setMaxLines(5);
+            indicatorTextView.setText("show more");
+        }
     }
 
     public void openBrowser(String link){
@@ -209,6 +287,38 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         }
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);
+    }
+
+    public void populateCastView(RecyclerView recyclerView){
+        if (!castString.equals("NA")){
+            List<Cast> list = getCastFromString(castString);
+
+
+            castAdapter = new CastAdapter(list, this);
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerView.setLayoutManager(llm);
+            recyclerView.setAdapter(castAdapter);
+
+        }
+
+    }
+
+
+    public List<Cast> getCastFromString(String constructorString){
+        List<Cast> listToReturn = new ArrayList<Cast>();
+
+        String[] splittedString = constructorString.split(";");
+        for (String string : splittedString){
+            String[] nameArray = string.split(",");
+            Cast cast = new Cast();
+            cast.setCharacterName(nameArray[0]);
+            cast.setRealName(nameArray[1]);
+
+            listToReturn.add(cast);
+        }
+        return listToReturn;
     }
 
 

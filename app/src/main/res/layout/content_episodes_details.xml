@@ -118,6 +118,10 @@
         android:layout_alignParentRight="true"
         android:id="@+id/episode_des_views"/>
 
+
+    <!--############################################-->
+    <!--Decscription text view-->
+
     <TextView
         android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
@@ -128,23 +132,38 @@
         android:id="@+id/episode_des_des"
         android:layout_below="@+id/episode_des_runtime"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:maxLines="5"
+        android:ellipsize="end"/>
+    <TextView
+        android:id="@+id/episode_des_expand_des"
+        android:textSize="16sp"
+        android:layout_below="@+id/episode_des_des"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="show more"
+        style="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimary"/>
+
+    <!--############################################-->
+    <!--Based on description-->
 
     <TextView
-
         android:textColor="@color/colorPrimary"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:paddingLeft="10dp"
         android:text="Based on"
         android:textAlignment="gravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/description_seperator"
-        android:layout_below="@+id/episode_des_des"
-        tools:text="Based on" />
+        android:layout_below="@+id/episode_des_expand_des"
+        tools:text="Based on"
+        style="@style/Base.TextAppearance.AppCompat.Headline"/>
 
     <TextView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:paddingLeft="10dp"
         android:text="Based on text view"
         android:layout_width="match_parent"
@@ -152,14 +171,16 @@
         android:textSize="16sp"
         android:id="@+id/based_on_textView"
         android:layout_below="@+id/description_seperator"
-        android:paddingBottom="20dp"/>
+        />
 
 
 
 
+    <!--############################################-->
+    <!--Trailor View-->
     <TextView
         android:textColor="@color/colorPrimary"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:paddingLeft="10dp"
         android:text="Trailor"
         android:textAlignment="gravity"
@@ -167,22 +188,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/trailer_view_seperator"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
         android:layout_below="@+id/based_on_textView" />
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/aed_youtube_trailor_view"
         android:layout_below="@id/trailer_view_seperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/imbdb_button"
-        android:layout_marginLeft="10dp"
-        android:layout_below="@+id/more_on_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="IMDb"
-        android:backgroundTint="#FFF3CE13"
+
+
+    <!--############################################-->
+    <!--Cast Recycler view-->
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:text="Cast"
+        android:textAlignment="gravity"
         android:paddingBottom="10dp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cast_view_seperator"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:layout_below="@+id/aed_youtube_trailor_view" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/episode_des_cast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cast_view_seperator"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--############################################-->
+    <!--Link Buttons-->
     <TextView
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="20dp"
@@ -193,7 +234,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/more_on_text_view"
-        android:layout_below="@+id/aed_youtube_trailor_view" />
+        android:layout_below="@+id/episode_des_cast" />
+
+    <Button
+        android:id="@+id/imbdb_button"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/more_on_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IMDb"
+        android:backgroundTint="#FFF3CE13"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="16dp"
+        />
+
     <Button
         android:id="@+id/wikipedia_button"
         android:layout_marginLeft="10dp"
@@ -203,6 +257,7 @@
         android:layout_height="wrap_content"
         android:text="Wikipedia"
         android:paddingBottom="10dp"
+        android:layout_marginBottom="16dp"
         />
     <Button
         android:id="@+id/bbc_button"
@@ -215,6 +270,7 @@
         android:textColor="#FFFFFF"
         android:backgroundTint="#000000"
         android:text="BBC"
+        android:layout_marginBottom="16dp"
         android:paddingBottom="10dp"/>
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
