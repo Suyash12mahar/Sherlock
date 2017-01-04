@@ -182,7 +182,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="16dp"
         android:paddingLeft="10dp"
-        android:text="Trailor"
+        android:text="Trailer"
         android:textAlignment="gravity"
         android:paddingBottom="10dp"
         android:layout_width="match_parent"

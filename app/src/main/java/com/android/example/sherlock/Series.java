@@ -15,8 +15,8 @@ public class Series {
     private int seriesNumber;
     private String ratings;
     private String airDate;
-    private String imdbLink = "https://www.google.com";
-    private String bbcLink = "https://www.google.com";
+    private String imdbLink;
+    private String bbcLink;
 
     public Series(int seriesNumber, String ratings, String airDate, String imdbLink, String bbcLink) {
         this.seriesNumber = seriesNumber;

@@ -221,7 +221,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         }
     }
 
-    public void intitializeYouTubePlayer(YouTubePlayerView videoPlayer){
+    public void intitializeYouTubePlayer(final YouTubePlayerView videoPlayer){
         videoPlayer.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
@@ -229,6 +229,8 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                     if (!trailorLink.equals("NA")){
                         youTubePlayer.loadVideo(trailorLink);
                         youTubePlayer.pause();
+                    } else {
+                        videoPlayer.setVisibility(View.GONE);
                     }
                 } else {
                     Toast.makeText(EpisodesDetails.this,"Error: Unable to load video",Toast.LENGTH_LONG).show();

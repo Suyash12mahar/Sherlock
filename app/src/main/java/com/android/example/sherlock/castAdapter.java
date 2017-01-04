@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Suyash on 03-01-2017.
  */
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ContactViewHolder> {
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
     public Activity activity;
     private List<Cast> list;
 
@@ -37,37 +37,44 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ContactViewHol
     }
 
     @Override
-    public void onBindViewHolder(final ContactViewHolder contactViewHolder, int position) {
-        contactViewHolder.vCharacterName.setText(list.get(position).getCharacterName());
-        contactViewHolder.vRealName.setText(list.get(position).getRealName());
+    public void onBindViewHolder(final CastViewHolder castViewHolder, int position) {
+        castViewHolder.vCharacterName.setText(list.get(position).getCharacterName());
+        castViewHolder.vRealName.setText(list.get(position).getRealName());
 
-        // Sets image resource for episode image (series 1, episode3 : img_1_2.png)
-        String imageName = String.format("img_cast_%s", list.get(position).getRealName().replaceAll(" ", "_").toLowerCase());
+        // Sets image resource for episode image (series 1, episode3 : img_1_3.png)
+        String imageName = String.format(
+                "img_cast_%s", list.get(position)
+                            .getRealName()
+                            .replaceAll(" ", "_")
+                            .toLowerCase());
 
         int resourceId = -1;
-        resourceId = activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName());
+        resourceId = activity.getResources()
+                        .getIdentifier(imageName, "drawable", activity.getPackageName());
 
         if (resourceId != 0) {
-            contactViewHolder.thumbnailImage.setImageResource(activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName()));
+            castViewHolder.thumbnailImage.setImageResource(
+                    activity.getResources()
+                        .getIdentifier(imageName, "drawable", activity.getPackageName()));
         } else {
-            contactViewHolder.thumbnailImage.setImageResource(R.drawable.user_default);
+            castViewHolder.thumbnailImage.setImageResource(R.drawable.user_default);
         }
     }
 
     @Override
-    public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public CastViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.cast_card, viewGroup, false);
 
-        return new ContactViewHolder(itemView);
+        return new CastViewHolder(itemView);
     }
 
-    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+    public static class CastViewHolder extends RecyclerView.ViewHolder {
         protected TextView vCharacterName, vRealName;
         protected ImageView thumbnailImage;
 
-        public ContactViewHolder(View v) {
+        public CastViewHolder(View v) {
             super(v);
 
             // Adds listener to open google search for current cast memeber

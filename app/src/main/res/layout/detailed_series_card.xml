@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
     android:layout_margin="5dp"
@@ -43,16 +44,10 @@
             android:layout_below="@+id/dsc_title_text_view"
             android:layout_toRightOf="@+id/dsc_ratings"
             android:text="January 2016"
-            android:textColor="#DEDEE1"
+            style="@style/Base.TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
+            android:textColor="#FF7A7A7A"
             android:textSize="16sp"/>
-        <!--
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="160dp"
-            android:layout_height="90dp"
-            android:src="@drawable/img_ser_1"
-            android:scaleType="centerCrop"/>
-            -->
+
         <View
             android:id="@+id/dsc_action_seperator"
             android:layout_marginTop="10dp"
@@ -124,7 +119,6 @@
                 android:layout_height="600dp"
                 android:scrollbars="vertical"
                 android:layout_below="@+id/dsc_expanded_seperator"
-
                 >
 
             </ListView>
