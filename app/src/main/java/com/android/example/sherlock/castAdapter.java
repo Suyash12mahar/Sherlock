@@ -1,8 +1,10 @@
 package com.android.example.sherlock;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -67,9 +69,29 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ContactViewHol
 
         public ContactViewHolder(View v) {
             super(v);
+
+            // Adds listener to open google search for current cast memeber
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(createSearchString(
+                                    String.valueOf(vRealName.getText())
+                            )));
+                    v.getContext().startActivity(browserIntent);
+                }
+            });
+
             vCharacterName =  (TextView) v.findViewById(R.id.cc_character_name);
             vRealName =  (TextView) v.findViewById(R.id.cc_real_name);
             thumbnailImage = (ImageView) v.findViewById(R.id.cc_image);
         }
     }
+
+    public static String createSearchString(String termToSearch){
+        String searchString = "https://www.google.co.in/search?q=";
+        searchString += termToSearch.replace(" ","+");
+        return searchString;
+    }
+
 }

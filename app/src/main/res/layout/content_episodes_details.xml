@@ -133,7 +133,7 @@
         android:layout_below="@+id/episode_des_runtime"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:maxLines="5"
+        android:maxLines="10"
         android:ellipsize="end"/>
     <TextView
         android:id="@+id/episode_des_expand_des"

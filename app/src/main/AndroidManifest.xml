@@ -28,12 +28,6 @@
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".EpisodeDetailsVid"
-            android:label="@string/title_activity_episode_details_vid"
-            android:theme="@style/AppTheme">
-
-        </activity>
     </application>
 
 </manifest>

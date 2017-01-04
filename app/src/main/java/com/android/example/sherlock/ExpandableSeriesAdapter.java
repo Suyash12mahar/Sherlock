@@ -66,6 +66,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
         contactViewHolder.vRatings.setText(ci.getRatings());
         contactViewHolder.vAirDate.setText(ci.getAirDate());
 
+        //
         if (position == expandedPosition) {
             contactViewHolder.vExpandableArea.setVisibility(View.VISIBLE);
         } else {
@@ -94,9 +95,13 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             @Override
             public void onClick(View v) {
                 ContactViewHolder holder = (ContactViewHolder) v.getTag();
+
+                // Adds current holder to holder list if it doesn't exists in same
                 if (!holderList.contains(holder)){
                     holderList.add(holder);
                 }
+
+                // Collapses every item in holderList
                 for (ContactViewHolder holderItem : holderList){
                     if (holderItem.vExpandableArea.isShown() && !holderItem.equals(contactViewHolder)){
                         Effects.dsc_collapse(v.getContext(), holderItem.vExpandableArea);
@@ -104,6 +109,8 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                         holderItem.vExpandCollapse.setImageResource(R.drawable.expand_arrow);
                     }
                 }
+
+                // Toggles expanded state for current holder
                 if (contactViewHolder.vExpandableArea.isShown()){
                     Effects.dsc_collapse(v.getContext(), contactViewHolder.vExpandableArea);
                     contactViewHolder.vExpandableArea.setVisibility(View.GONE);
@@ -159,8 +166,8 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
         }
         dscEpisodeAdapter adapter = new dscEpisodeAdapter(activity, R.layout.dsc_episode_item, episodeList);
-        contactViewHolder.vEpisodeslist.setAdapter(adapter);
-        contactViewHolder.vEpisodeslist.setOnItemClickListener(episodeOnItemClickListener);
+        contactViewHolder.vEpisodesList.setAdapter(adapter);
+        contactViewHolder.vEpisodesList.setOnItemClickListener(episodeOnItemClickListener);
         adapter.notifyDataSetChanged();
     }
 
@@ -193,10 +200,12 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
         protected Button vImdb, vBbc ;
         protected ImageButton vExpandCollapse;
         protected LinearLayout vExpandableArea;
-        protected ListView vEpisodeslist;
+        protected ListView vEpisodesList;
 
         public ContactViewHolder(View v) {
             super(v);
+
+
             vTitle =  (TextView) v.findViewById(R.id.dsc_title_text_view);
             vRatings =  (TextView) v.findViewById(R.id.dsc_ratings);
             vAirDate =  (TextView) v.findViewById(R.id.dsc_air_date_text_view);
@@ -204,7 +213,7 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             vBbc =  (Button) v.findViewById(R.id.dsc_bbc_button);
             vExpandCollapse =  (ImageButton) v.findViewById(R.id.dsc_expand_close_button);
             vExpandableArea = (LinearLayout) v.findViewById(R.id.dsc_expand_layout);
-            vEpisodeslist = (ListView) v.findViewById(R.id.dsc_episode_list);
+            vEpisodesList = (ListView) v.findViewById(R.id.dsc_episode_list);
 
             vExpandCollapse.setTag(this);
         }
