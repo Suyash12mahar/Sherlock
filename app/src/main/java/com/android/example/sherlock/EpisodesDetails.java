@@ -1,6 +1,7 @@
 package com.android.example.sherlock;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EpisodesDetails extends YouTubeBaseActivity {
+    final static String PREFERENCE_NAME = "com.android.example.sherlock.favourite";
+
     int seasonNumber;
     int episodeNumber;
     DatabaseHelper dbHelper;
@@ -42,14 +46,14 @@ public class EpisodesDetails extends YouTubeBaseActivity {
     String trailorLink = null;
     String castString = null;
     CastAdapter castAdapter;
+    Boolean isCurrentPageBookmarked = false;
+    String bookmarkString = "";
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episodes_details_scroll);
-
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.aed_toolbar);
-
 
         Bundle extras = getIntent().getExtras();
         seasonNumber = Integer.parseInt(extras.getString("season_number"));
@@ -57,6 +61,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
 
         dbHelper = new DatabaseHelper(this);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.aed_toolbar);
         final CollapsingToolbarLayout collapsingToolbarLayout= (CollapsingToolbarLayout)findViewById(R.id.aed_toolbar_layout);
         ImageView episodeImage = (ImageView) findViewById(R.id.episode_image);
         TextView seasonNumberTextView = (TextView) findViewById(R.id.episode_season_number);
@@ -71,6 +76,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         final Button wikipediaButton = (Button) findViewById(R.id.wikipedia_button);
         final TextView ratings = (TextView) findViewById(R.id.episode_des_ratings);
         final TextView ratingsScale = (TextView) findViewById(R.id.episode_des_ratings_scale);
+        final ImageButton bookmarkButton = (ImageButton) findViewById(R.id.des_bookmark_button);
         RecyclerView castView = (RecyclerView) findViewById(R.id.episode_des_cast);
 
         //setSupportActionBar(toolbar);
@@ -219,6 +225,55 @@ public class EpisodesDetails extends YouTubeBaseActivity {
             castViewSeperator.setVisibility(View.GONE);
             castView.setVisibility(View.GONE);
         }
+
+
+        settings = getSharedPreferences(PREFERENCE_NAME, 0);
+
+
+            bookmarkString = settings.getString("bookmark", "");
+            isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seasonNumber, episodeNumber);
+
+            if (isCurrentPageBookmarked){
+                bookmarkButton.setImageResource(R.drawable.ic_bookmark_black_24dp);
+                isCurrentPageBookmarked = !isCurrentPageBookmarked;
+
+            } else {
+                bookmarkButton.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+                isCurrentPageBookmarked = !isCurrentPageBookmarked;
+            }
+
+
+        bookmarkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookmarkString = settings.getString("bookmark", "");
+                isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seasonNumber, episodeNumber);
+
+                if (isCurrentPageBookmarked){
+                    bookmarkButton.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+                    isCurrentPageBookmarked = !isCurrentPageBookmarked;
+                    bookmarkString = SettingsStorage.deleteFromString(bookmarkString,seasonNumber, episodeNumber);
+
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("bookmark", bookmarkString);
+                    editor.commit();
+
+
+                } else {
+                    bookmarkButton.setImageResource(R.drawable.ic_bookmark_black_24dp);
+
+                    isCurrentPageBookmarked = !isCurrentPageBookmarked;
+                    bookmarkString = SettingsStorage.AddString(bookmarkString,seasonNumber, episodeNumber);
+
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("bookmark", bookmarkString);
+                    Snackbar snackbar = Snackbar.make(v, "Episode bookmarked!", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                    editor.commit();
+                }
+            }
+        });
     }
 
     public void intitializeYouTubePlayer(final YouTubePlayerView videoPlayer){
@@ -275,6 +330,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                 Toast.makeText(EpisodesDetails.this,"Error: Unable to initialize player",Toast.LENGTH_LONG).show();
             }
         });
+
 
     }
 

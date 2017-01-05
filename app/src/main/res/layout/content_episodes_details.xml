@@ -272,5 +272,16 @@
         android:text="BBC"
         android:layout_marginBottom="16dp"
         android:paddingBottom="10dp"/>
+
+    <ImageButton
+        android:id="@+id/des_bookmark_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bookmark_border_black_24dp"
+        android:backgroundTint="#00ffffff"
+        android:layout_below="@+id/releative_layout_episode_info"
+        android:layout_alignParentEnd="true"
+        android:foregroundTint="@color/colorPrimary"
+        android:foregroundTintMode="src_in"/>
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
