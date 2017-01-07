@@ -43,7 +43,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
     String imdbLink = null;
     String bbcLink = null;
     String wikipediaLink = null;
-    String trailorLink = null;
+    String trailerLink = null;
     String castString = null;
     CastAdapter castAdapter;
     Boolean isCurrentPageBookmarked = false;
@@ -70,13 +70,13 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         final TextView episodeDescriptionTextView = (TextView) findViewById(R.id.episode_des_des);
         TextView basedOnTextView = (TextView) findViewById(R.id.based_on_textView);
         final TextView expandDescription = (TextView) findViewById(R.id.episode_des_expand_des);
-        final TextView castViewSeperator = (TextView) findViewById(R.id.cast_view_seperator);
+        final TextView castViewSeparator = (TextView) findViewById(R.id.cast_view_seperator);
         final Button imdbButton = (Button) findViewById(R.id.imbdb_button);
         final Button bbcButton = (Button) findViewById(R.id.bbc_button);
         final Button wikipediaButton = (Button) findViewById(R.id.wikipedia_button);
         final TextView ratings = (TextView) findViewById(R.id.episode_des_ratings);
         final TextView ratingsScale = (TextView) findViewById(R.id.episode_des_ratings_scale);
-        final ImageButton bookmarkButton = (ImageButton) findViewById(R.id.des_bookmark_button);
+        final ImageView bookmarkButton = (ImageView) findViewById(R.id.des_bookmark_button);
         RecyclerView castView = (RecyclerView) findViewById(R.id.episode_des_cast);
 
         //setSupportActionBar(toolbar);
@@ -142,7 +142,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                         imdbLink = cursor.getString(13);
                         wikipediaLink = cursor.getString(14);
 
-                        trailorLink = cursor.getString(15);
+                        trailerLink = cursor.getString(15);
                         toolbar.setTitle(cursor.getString(3));
                     } while (cursor.moveToNext());
                 }
@@ -153,10 +153,9 @@ public class EpisodesDetails extends YouTubeBaseActivity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
 
-        String folderPath = "@drawable/";
         String imageName = String.format("img_%d_%d_high_res", seasonNumber, episodeNumber);
 
-        int drawableResourceId = -1;
+        int drawableResourceId;
 
         try{
             drawableResourceId = this.getResources().getIdentifier(imageName, "drawable", this.getPackageName());
@@ -222,7 +221,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         if (!castString.equals("NA")) {
             castAdapter.notifyDataSetChanged();
         } else{
-            castViewSeperator.setVisibility(View.GONE);
+            castViewSeparator.setVisibility(View.GONE);
             castView.setVisibility(View.GONE);
         }
 
@@ -230,17 +229,17 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         settings = getSharedPreferences(PREFERENCE_NAME, 0);
 
 
-            bookmarkString = settings.getString("bookmark", "");
-            isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seasonNumber, episodeNumber);
+        bookmarkString = settings.getString("bookmark", "");
+        isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seasonNumber, episodeNumber);
 
-            if (isCurrentPageBookmarked){
-                bookmarkButton.setImageResource(R.drawable.ic_bookmark_black_24dp);
-                isCurrentPageBookmarked = !isCurrentPageBookmarked;
+        if (isCurrentPageBookmarked){
+            bookmarkButton.setImageResource(R.drawable.ic_bookmark_black_24dp);
+            isCurrentPageBookmarked = !isCurrentPageBookmarked;
 
-            } else {
-                bookmarkButton.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
-                isCurrentPageBookmarked = !isCurrentPageBookmarked;
-            }
+        } else {
+            bookmarkButton.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
+            isCurrentPageBookmarked = !isCurrentPageBookmarked;
+        }
 
 
         bookmarkButton.setOnClickListener(new View.OnClickListener() {
@@ -256,7 +255,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
 
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("bookmark", bookmarkString);
-                    editor.commit();
+                    editor.apply();
 
 
                 } else {
@@ -270,7 +269,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                     Snackbar snackbar = Snackbar.make(v, "Episode bookmarked!", Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                    editor.commit();
+                    editor.apply();
                 }
             }
         });
@@ -280,9 +279,9 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         videoPlayer.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
-                if (trailorLink != null){
-                    if (!trailorLink.equals("NA")){
-                        youTubePlayer.loadVideo(trailorLink);
+                if (trailerLink != null){
+                    if (!trailerLink.equals("NA")){
+                        youTubePlayer.loadVideo(trailerLink);
                         youTubePlayer.pause();
                     } else {
                         videoPlayer.setVisibility(View.GONE);

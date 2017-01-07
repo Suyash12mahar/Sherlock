@@ -22,7 +22,6 @@
         <TextView
             android:text="Series"
             android:paddingLeft="10dp"
-            android:textColor="@color/colorPrimary"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +45,6 @@
             android:text="|   Episode"
             android:paddingLeft="10dp"
             android:layout_toRightOf="@+id/episode_season_number"
-            android:textColor="@color/colorPrimary"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +62,7 @@
             android:id="@+id/episode_number"
             android:textSize="15dp"
             android:elevation="2dp" />
+
     </RelativeLayout>
     <TextView
         android:id="@+id/episode_des_IMDB"
@@ -177,7 +176,7 @@
 
 
     <!--############################################-->
-    <!--Trailor View-->
+    <!--Trailer View-->
     <TextView
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="16dp"
@@ -203,7 +202,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
-        android:text="Cast"
+        android:text="Episode Cast"
         android:textAlignment="gravity"
         android:paddingBottom="10dp"
         android:layout_width="match_parent"
@@ -273,15 +272,19 @@
         android:layout_marginBottom="16dp"
         android:paddingBottom="10dp"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/des_bookmark_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
         android:src="@drawable/ic_bookmark_border_black_24dp"
-        android:backgroundTint="#00ffffff"
-        android:layout_below="@+id/releative_layout_episode_info"
-        android:layout_alignParentEnd="true"
+        android:backgroundTint="#00Afffff"
         android:foregroundTint="@color/colorPrimary"
-        android:foregroundTintMode="src_in"/>
+        android:foregroundTintMode="src_in"
+        android:layout_above="@+id/episode_des_views"
+        android:layout_alignParentEnd="true" />
+
+    <!--############################################-->
+    <!--Bookmark Button-->
 </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

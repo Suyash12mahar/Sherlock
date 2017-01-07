@@ -10,7 +10,7 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
     android:layout_margin="5dp"
-    android:clickable="true">
+    android:clickable="false">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -113,7 +113,6 @@
             android:layout_height="wrap_content">
             <ListView
                 android:descendantFocusability="blocksDescendants"
-
                 android:id="@+id/dsc_episode_list"
                 android:layout_width="match_parent"
                 android:layout_height="600dp"

@@ -2,23 +2,16 @@ package com.android.example.sherlock; /**
  * Created by Suyash on 28-12-2016.
  */
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.opengl.Visibility;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,31 +22,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import static android.R.attr.id;
-import static android.R.attr.packageNames;
 
 /**
  * Created by Suyash on 29-12-2016.
  */
 
-public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeriesAdapter.SeriesViewHolder > {
+class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeriesAdapter.SeriesViewHolder > {
     public Activity activity;
     private List<Series> list;
     private int expandedPosition = -1;
 
+    ImageView bookmarkImageView;
+
     private String bbcLink;
     private String imdbLink;
 
-    private List<Integer> expandedPositions = new ArrayList<>();
-    private ArrayList<SeriesViewHolder > holderList = new ArrayList<SeriesViewHolder>();
+    private ArrayList<SeriesViewHolder> holderList = new ArrayList<SeriesViewHolder>();
     int activeSeries = 1;
 
-    public ExpandableSeriesAdapter(List<Series> list, Activity activity) {
+    public dscEpisodeAdapter adapter;
+
+    ExpandableSeriesAdapter(List<Series> list, Activity activity) {
         this.activity = activity;
         this.list = list;
     }
@@ -156,14 +146,13 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                         item.setEpisodeNumber(cursor.getInt(2));
 
                         String imageName = String.format("img_%d_%d", seriesNumber, item.getEpisodeNumber());
-                        int resourceId = -1;
+                        int resourceId;
                         resourceId = activity.getResources()
                                         .getIdentifier(imageName, "drawable", activity.getPackageName());
                         if (resourceId != 0) {
                             item.setThumbnailID(activity.getResources().getIdentifier(imageName, "drawable", activity.getPackageName()));
                         } else {
                             Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
-
                             item.setThumbnailID(R.drawable.thumbnail_low_res);
                         }
                         episodeList.add(item);
@@ -172,10 +161,10 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
                 }
             }
         } catch (SQLiteException e){
-            Log.d("TAG", "Error accessing database 2");
-            Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+            Log.d("DatabaseError", "ExpandableSeriesAdapter 179: Error accessing database");
+            Toast.makeText(activity, "Error accessing database", Toast.LENGTH_SHORT).show();
         }
-        dscEpisodeAdapter adapter = new dscEpisodeAdapter(activity, R.layout.dsc_episode_item, episodeList);
+        adapter = new dscEpisodeAdapter(activity, R.layout.dsc_episode_item, episodeList);
         seriesViewHolder.vEpisodesList.setAdapter(adapter);
         seriesViewHolder.vEpisodesList.setOnItemClickListener(episodeOnItemClickListener);
 
@@ -201,16 +190,17 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // This comment is of no use
-            int i = parent.getCount();
             TextView ij = (TextView)parent.findViewById(R.id.ei_episode_title);
+
+            bookmarkImageView = (ImageView) parent.findViewById(R.id.ei_bookmark_icon);
             Log.e("This",ij.getText().toString());
             Intent newerIntent = new Intent(activity, EpisodesDetails.class);
             newerIntent.putExtra("season_number", String.valueOf(activeSeries));
             newerIntent.putExtra("episode_number", String.valueOf(id+1));
-            activity.startActivity(newerIntent);
+            activity.startActivityForResult(newerIntent, 1);
         }
     };
+
 
     @Override
     public SeriesViewHolder  onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -221,12 +211,12 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
         return new SeriesViewHolder (itemView);
     }
 
-    public static class SeriesViewHolder extends RecyclerView.ViewHolder {
-        protected TextView vTitle, vRatings, vAirDate;
-        protected Button vImdb, vBbc ;
-        protected ImageButton vExpandCollapse;
-        protected LinearLayout vExpandableArea;
-        protected ListView vEpisodesList;
+    static class SeriesViewHolder extends RecyclerView.ViewHolder {
+        TextView vTitle, vRatings, vAirDate;
+        Button vImdb, vBbc ;
+        ImageButton vExpandCollapse;
+        LinearLayout vExpandableArea;
+        ListView vEpisodesList;
 
         public SeriesViewHolder(View v) {
             super(v);
@@ -244,4 +234,6 @@ public class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeri
             vExpandCollapse.setTag(this);
         }
     }
+
+
 }

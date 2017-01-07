@@ -24,6 +24,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:elevation="3dp">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

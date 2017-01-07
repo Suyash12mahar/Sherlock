@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/cardview_light_background"
-        android:background="#60000000"
+        android:background="#70000000"
         android:text="A Study in Pink"
         android:textSize="25sp"
         android:fontFamily="sans-serif"
@@ -27,5 +27,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:alpha="1" />
+
+    <ImageView
+        android:id="@+id/ei_bookmark_icon"
+        android:elevation="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ei_episode_image"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_bookmark_white_24dp"/>
 
 </RelativeLayout>
