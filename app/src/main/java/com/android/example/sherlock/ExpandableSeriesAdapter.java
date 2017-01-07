@@ -194,7 +194,7 @@ class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeriesAdapt
             ListView lv = (ListView) view.getParent();
             RelativeLayout rv = (RelativeLayout) lv.getChildAt(position);
             bookmarkImageView =(ImageView)rv.getChildAt(2);
-            
+
             Intent newerIntent = new Intent(activity, EpisodesDetails.class);
             newerIntent.putExtra("season_number", String.valueOf(activeSeries));
             newerIntent.putExtra("episode_number", String.valueOf(id+1));
