@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -190,10 +191,10 @@ class ExpandableSeriesAdapter extends RecyclerView.Adapter<ExpandableSeriesAdapt
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            TextView ij = (TextView)parent.findViewById(R.id.ei_episode_title);
-
-            bookmarkImageView = (ImageView) parent.findViewById(R.id.ei_bookmark_icon);
-            Log.e("This",ij.getText().toString());
+            ListView lv = (ListView) view.getParent();
+            RelativeLayout rv = (RelativeLayout) lv.getChildAt(position);
+            bookmarkImageView =(ImageView)rv.getChildAt(2);
+            
             Intent newerIntent = new Intent(activity, EpisodesDetails.class);
             newerIntent.putExtra("season_number", String.valueOf(activeSeries));
             newerIntent.putExtra("episode_number", String.valueOf(id+1));

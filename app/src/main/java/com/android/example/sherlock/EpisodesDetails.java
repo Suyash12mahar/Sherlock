@@ -37,7 +37,7 @@ import java.util.List;
 public class EpisodesDetails extends YouTubeBaseActivity {
     final static String PREFERENCE_NAME = "com.android.example.sherlock.favourite";
 
-    int seasonNumber;
+    int seriesNumber;
     int episodeNumber;
     DatabaseHelper dbHelper;
     String imdbLink = null;
@@ -56,7 +56,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
         setContentView(R.layout.activity_episodes_details_scroll);
 
         Bundle extras = getIntent().getExtras();
-        seasonNumber = Integer.parseInt(extras.getString("season_number"));
+        seriesNumber = Integer.parseInt(extras.getString("season_number"));
         episodeNumber = Integer.parseInt(extras.getString("episode_number"));
 
         dbHelper = new DatabaseHelper(this);
@@ -89,7 +89,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                 sendIntent.setAction(Intent.ACTION_SEND);
                 String textToSend = collapsingToolbarLayout.getTitle() + "\n" +
                         "\n" +
-                        "Series " + seasonNumber + " | " + " Episode " + episodeNumber + " of " + 3 + "\n" +
+                        "Series " + seriesNumber + " | " + " Episode " + episodeNumber + " of " + 3 + "\n" +
                         "\n" +
                         runtimeTextView.getText() + " | " + viewsTextView.getText() + "\n" +
                         "\n" +
@@ -114,7 +114,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
             Log.d("TAG", "Error accessing database");
         }
 
-        String queryString = String.format("SELECT * FROM \"EpisodeDetails\" WHERE SeasonNumber=\"%d\" AND ReleativeEpisodeNumber=\"%d\"",seasonNumber,episodeNumber);
+        String queryString = String.format("SELECT * FROM \"EpisodeDetails\" WHERE SeasonNumber=\"%d\" AND ReleativeEpisodeNumber=\"%d\"",seriesNumber,episodeNumber);
 
         try {
             Cursor cursor = dbHelper.QueryData(queryString);
@@ -153,7 +153,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
 
-        String imageName = String.format("img_%d_%d_high_res", seasonNumber, episodeNumber);
+        String imageName = String.format("img_%d_%d_high_res", seriesNumber, episodeNumber);
 
         int drawableResourceId;
 
@@ -230,7 +230,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
 
 
         bookmarkString = settings.getString("bookmark", "");
-        isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seasonNumber, episodeNumber);
+        isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seriesNumber, episodeNumber);
 
         if (isCurrentPageBookmarked){
             bookmarkButton.setImageResource(R.drawable.ic_bookmark_black_24dp);
@@ -246,12 +246,12 @@ public class EpisodesDetails extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
                 bookmarkString = settings.getString("bookmark", "");
-                isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seasonNumber, episodeNumber);
+                isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, seriesNumber, episodeNumber);
 
                 if (isCurrentPageBookmarked){
                     bookmarkButton.setImageResource(R.drawable.ic_bookmark_border_black_24dp);
                     isCurrentPageBookmarked = !isCurrentPageBookmarked;
-                    bookmarkString = SettingsStorage.deleteFromString(bookmarkString,seasonNumber, episodeNumber);
+                    bookmarkString = SettingsStorage.deleteFromString(bookmarkString,seriesNumber, episodeNumber);
 
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("bookmark", bookmarkString);
@@ -262,7 +262,7 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                     bookmarkButton.setImageResource(R.drawable.ic_bookmark_black_24dp);
 
                     isCurrentPageBookmarked = !isCurrentPageBookmarked;
-                    bookmarkString = SettingsStorage.AddString(bookmarkString,seasonNumber, episodeNumber);
+                    bookmarkString = SettingsStorage.AddString(bookmarkString,seriesNumber, episodeNumber);
 
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("bookmark", bookmarkString);
@@ -273,6 +273,18 @@ public class EpisodesDetails extends YouTubeBaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        // Create intent to deliver some kind of result data
+        Intent result = new Intent("com.example.RESULT_ACTION", Uri.parse("content://result_uri"));
+        setResult(EpisodesDetails.RESULT_OK, result);
+        result.putExtra("SeriesNumber",seriesNumber);
+        result.putExtra("EpisodeNumber",episodeNumber);
+        result.putExtra("isPageBookmarked",isCurrentPageBookmarked);
+
+        super.finish();
     }
 
     public void intitializeYouTubePlayer(final YouTubePlayerView videoPlayer){

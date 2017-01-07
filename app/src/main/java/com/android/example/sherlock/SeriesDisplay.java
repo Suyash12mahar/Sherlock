@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,17 +33,11 @@ public class SeriesDisplay extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultData)
     {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, resultData);
         if(requestCode==1) {
-
-            settings = getSharedPreferences(PREFERENCE_NAME, 0);
-
-
-            bookmarkString = settings.getString("bookmark", "");
-            Boolean isCurrentPageBookmarked =  SettingsStorage.isCurrentPageBookmarked(bookmarkString, adapter.adapter.seriesNumber+1, adapter.adapter.episodeNumber+1);
-            if (isCurrentPageBookmarked){
+            if (resultData.getExtras().getBoolean("isPageBookmarked")){
                 adapter.bookmarkImageView.setVisibility(View.VISIBLE);
             } else {
                 adapter.bookmarkImageView.setVisibility(View.INVISIBLE);
